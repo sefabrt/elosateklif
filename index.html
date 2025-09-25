@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="UTF-8">
+  <title>Ela 💖</title>
+  <style>
+    body {
+      font-family: 'Comic Sans MS', cursive, sans-serif;
+      background-color: #ffe6f0;
+      color: #ff4d88;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      margin: 0;
+      flex-direction: column;
+      text-align: center;
+      overflow: hidden;
+    }
+    .question {
+      font-size: 1.5rem;
+      margin-bottom: 20px;
+      animation: fadeIn 1s ease;
+    }
+    .options {
+      display: flex;
+      gap: 15px;
+      justify-content: center;
+    }
+    button {
+      background-color: #ff99cc;
+      border: none;
+      padding: 12px 25px;
+      border-radius: 25px;
+      cursor: pointer;
+      font-size: 1.1rem;
+      color: white;
+      transition: transform 0.3s, background-color 0.3s;
+    }
+    button:hover {
+      background-color: #ff66b2;
+      transform: scale(1.1);
+    }
+    .hidden { display: none; }
+    @keyframes fadeIn {
+      from {opacity: 0;}
+      to {opacity: 1;}
+    }
+    #finalText {
+      font-size: 2rem;
+      margin-top: 20px;
+    }
+    .confetti {
+      position: absolute;
+      font-size: 2rem;
+      animation: fall 3s linear infinite;
+    }
+    @keyframes fall {
+      0% { transform: translateY(-10vh); opacity: 1; }
+      100% { transform: translateY(100vh); opacity: 0; }
+    }
+  </style>
+</head>
+<body>
+
+  <div id="questionBox">
+    <div class="question" id="question">Bugün kendinizi nasıl hissediyorsunuz eloş hanım?</div>
+    <div class="options" id="options">
+      <button onclick="nextQuestion('😊')">Çok iyi</button>
+      <button onclick="nextQuestion('🙂')">İyi</button>
+      <button onclick="nextQuestion('😢')">Kötü</button>
+    </div>
+  </div>
+
+  <div id="emojiBox" style="font-size:2rem; margin-top:20px;"></div>
+  <div id="finalText"></div>
+
+  <script>
+    const questions = [
+      {q:"Filmden korkacağını düşünüyo musun?", o:["Evet 😱","Hayır 😎"]},
+      {q:"Sence seni seviyo muyum?", o:["Evet ❤️","Hayır 💔"]},
+    ];
+
+    let step = 0;
+
+    function nextQuestion(emoji) {
+      document.getElementById("emojiBox").innerText = emoji;
+
+      if(step < questions.length){
+        setTimeout(()=>{
+          document.getElementById("question").innerText = questions[step].q;
+          document.getElementById("options").innerHTML = "";
+          questions[step].o.forEach(opt=>{
+            let btn=document.createElement("button");
+            btn.innerText=opt;
+            btn.onclick=()=>nextQuestion(opt.includes("Evet")||opt.includes("❤️")?"😍":"😅");
+            document.getElementById("options").appendChild(btn);
+          });
+          step++;
+        },1000);
+      } else {
+        setTimeout(showFinal,1000);
+      }
+    }
+
+    function showFinal(){
+      document.getElementById("questionBox").classList.add("hidden");
+      let final=document.getElementById("finalText");
+      let texts=["Neyse Ela...","Uzun lafın kısası...","SEVGİLİM OLUR MUSUN?"];
+      let i=0;
+      function show(){
+        if(i<texts.length){
+          final.innerHTML += "<p>"+texts[i]+"</p>";
+          i++;
+          setTimeout(show,700);
+        } else {
+          showYesNo();
+        }
+      }
+      show();
+    }
+
+    function showYesNo(){
+      let opts=document.createElement("div");
+      opts.className="options";
+      let yes=document.createElement("button");
+      yes.innerText="Evet 💍";
+      yes.onclick=celebrate;
+      let no=document.createElement("button");
+      no.innerText="Hayır 🙃";
+      no.onclick=()=>{ yes.style.transform="scale(1.5)"; };
+      opts.appendChild(yes);
+      opts.appendChild(no);
+      document.body.appendChild(opts);
+    }
+
+    function celebrate(){
+      document.getElementById("finalText").innerHTML="<h2>Seni Seviyorum 💖</h2>";
+      for(let i=0;i<40;i++){
+        let conf=document.createElement("div");
+        conf.className="confetti";
+        conf.innerText=Math.random()>0.5?"💍":"🎉";
+        conf.style.left=Math.random()*100+"vw";
+        conf.style.animationDuration=(2+Math.random()*3)+"s";
+        document.body.appendChild(conf);
+        setTimeout(()=>conf.remove(),5000);
+      }
+    }
+  </script>
+</body>
+</html>
