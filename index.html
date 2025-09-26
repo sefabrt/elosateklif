@@ -4,9 +4,10 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Ela 💖</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
   <style>
     body {
-      font-family: 'Comic Sans MS', cursive, sans-serif;
+      font-family: 'Poppins', sans-serif;
       background-color: #ffe6f0;
       color: #ff4d88;
       display: flex;
@@ -73,7 +74,7 @@
     <div class="options" id="options">
       <button onclick="nextQuestion('😊')">Çok iyi</button>
       <button onclick="nextQuestion('🙂')">İyi</button>
-      <button onclick="nextQuestion('😢')">Kötü</button>
+      <button onclick="nextQuestion('😔')">Kötü</button>
     </div>
   </div>
 
@@ -82,8 +83,18 @@
 
   <script>
     const questions = [
-      {q:"Filmden korkacağını düşünüyo musun?", o:["Evet 😱","Hayır 😎"]},
-      {q:"Sence seni seviyo muyum?", o:["Evet ❤️","Hayır 💔"]},
+      {
+        q: "Bu yıl akademik olarak başarılı olacağını düşünüyor musun?",
+        o: ["Evet ✨", "Hayır 🙃"]
+      },
+      {
+        q: "Sence yıllar sonra evlenir miyiz?",
+        o: ["Evet 💍", "Hayır 🤔"]
+      },
+      {
+        q: "Sence ben gerçekten seni seviyor muyum?",
+        o: ["Evet ❤️", "Hayır 💔"]
+      }
     ];
 
     let step = 0;
@@ -91,33 +102,33 @@
     function nextQuestion(emoji) {
       document.getElementById("emojiBox").innerText = emoji;
 
-      if(step < questions.length){
-        setTimeout(()=>{
+      if (step < questions.length) {
+        setTimeout(() => {
           document.getElementById("question").innerText = questions[step].q;
           document.getElementById("options").innerHTML = "";
-          questions[step].o.forEach(opt=>{
-            let btn=document.createElement("button");
-            btn.innerText=opt;
-            btn.onclick=()=>nextQuestion(opt.includes("Evet")||opt.includes("❤️")?"😍":"😅");
+          questions[step].o.forEach(opt => {
+            let btn = document.createElement("button");
+            btn.innerText = opt;
+            btn.onclick = () => nextQuestion(opt.includes("Evet") || opt.includes("❤️") ? "😍" : "😅");
             document.getElementById("options").appendChild(btn);
           });
           step++;
-        },1000);
+        }, 1000);
       } else {
-        setTimeout(showFinal,1000);
+        setTimeout(showFinal, 1000);
       }
     }
 
-    function showFinal(){
+    function showFinal() {
       document.getElementById("questionBox").classList.add("hidden");
-      let final=document.getElementById("finalText");
-      let texts=["Neyse Ela...","Uzun lafın kısası...","SEVGİLİM OLUR MUSUN?"];
-      let i=0;
-      function show(){
-        if(i<texts.length){
-          final.innerHTML += "<p>"+texts[i]+"</p>";
+      let final = document.getElementById("finalText");
+      let texts = ["Neyse Ela...", "Uzun lafın kısası...", "SEVGİLİM OLUR MUSUNNN?"];
+      let i = 0;
+      function show() {
+        if (i < texts.length) {
+          final.innerHTML += "<p>" + texts[i] + "</p>";
           i++;
-          setTimeout(show,700);
+          setTimeout(show, 200); // 0.2 saniye
         } else {
           showYesNo();
         }
@@ -125,30 +136,29 @@
       show();
     }
 
-    function showYesNo(){
-      let opts=document.createElement("div");
-      opts.className="options";
-      opts.id="finalOptions";
+    function showYesNo() {
+      let opts = document.createElement("div");
+      opts.className = "options";
+      opts.id = "finalOptions";
 
-      let yes=document.createElement("button");
-      yes.id="yesBtn";
-      yes.innerText="Evet 💍";
-      yes.onclick=celebrate;
+      let yes = document.createElement("button");
+      yes.id = "yesBtn";
+      yes.innerText = "Evet 💖";
+      yes.onclick = celebrate;
 
-      let no=document.createElement("button");
-      no.id="noBtn";
-      no.innerText="Hayır 🙃";
+      let no = document.createElement("button");
+      no.id = "noBtn";
+      no.innerText = "Hayır 🙃";
 
-      let noClicks=0;
-      no.onclick=()=>{
+      let noClicks = 0;
+      no.onclick = () => {
         noClicks++;
-        yes.style.zIndex="10"; // hep üstte olsun
-        yes.style.transform=`scale(${1+noClicks*0.5})`;
-        if(noClicks>=3){
-          no.remove(); // 3. kez basınca kaybol
-          // yes ortalansın
-          let opts=document.getElementById("finalOptions");
-          opts.style.justifyContent="center";
+        yes.style.zIndex = "10"; // hep üstte olsun
+        yes.style.transform = `scale(${1 + noClicks * 0.5})`;
+        if (noClicks >= 2) {
+          no.remove(); // 2. kez basınca kaybol
+          let opts = document.getElementById("finalOptions");
+          opts.style.justifyContent = "center"; // yatayda ortala
         }
       };
 
@@ -157,16 +167,16 @@
       document.body.appendChild(opts);
     }
 
-    function celebrate(){
-      document.getElementById("finalText").innerHTML="<h2>Seni Seviyorum 💖</h2>";
-      for(let i=0;i<40;i++){
-        let conf=document.createElement("div");
-        conf.className="confetti";
-        conf.innerText=Math.random()>0.5?"💍":"🎉";
-        conf.style.left=Math.random()*100+"vw";
-        conf.style.animationDuration=(2+Math.random()*3)+"s";
+    function celebrate() {
+      document.getElementById("finalText").innerHTML = "<h2>Seni Seviyorum 💖</h2>";
+      for (let i = 0; i < 40; i++) {
+        let conf = document.createElement("div");
+        conf.className = "confetti";
+        conf.innerText = Math.random() > 0.5 ? "💍" : "🎉";
+        conf.style.left = Math.random() * 100 + "vw";
+        conf.style.animationDuration = (2 + Math.random() * 3) + "s";
         document.body.appendChild(conf);
-        setTimeout(()=>conf.remove(),5000);
+        setTimeout(() => conf.remove(), 5000);
       }
     }
   </script>
